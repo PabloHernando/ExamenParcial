@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 import { addCoworkingSeats } from "./populatedb";
 import express from "express";
-import { book, character, characters, free, freeSeats } from "./resolvers";
+import { book, free, freeSeats } from "./resolvers";
 import moment from "moment";
 
 const run = async () => {
@@ -11,13 +11,10 @@ const run = async () => {
 
 
   app.get("/status", async (req, res) => {
-    moment.locale('es');
-    const Date = moment().format('l');;
-    res.json({status:200,Date:Date});
+    const date = new Date();
+    res.status(200).send(`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`);
   });
 
-  app.get("/characters", characters);
-  app.get("/character/:id", character);
   app.get("/freeSeats", freeSeats);
   app.post("/book", book);
   app.post("/free", free);
@@ -30,3 +27,5 @@ try {
 } catch (e) {
   console.error(e);
 }
+
+
